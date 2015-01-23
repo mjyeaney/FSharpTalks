@@ -3,10 +3,10 @@ open System.Net
 open System.Text
 open System.IO
 
-let siteRoot = "~/Projects/fsharp/"
+let siteRoot = Path.GetFullPath("~/Projects/fsharp/")
 let host = "http://localhost:8080/"
 
-let listener (handler:(HttpListenerRequest->HttpListenerResponse->Async<unit>)) = 
+let listener handler =
     let hl = new HttpListener()
     hl.Prefixes.Add host
     hl.Start()
@@ -18,16 +18,8 @@ let listener (handler:(HttpListenerRequest->HttpListenerResponse->Async<unit>)) 
             Async.Start(handler context.Request context.Response)
     } |> Async.Start
 
-let output (req:HttpListenerRequest) = 
-    let reqPath = Uri(host).MakeRelativeUri(req.Url).OriginalString
-    let file = Path.Combine(siteRoot, reqPath) 
-
-    printfn "Request path: '%s'" reqPath
-    printfn "Requested: '%s'" file
-
-    if (File.Exists file)
-        then File.ReadAllText(file)
-        else "File does not exist!"
+let output req =
+    "Hello from F# Web Server!!!!"
 
 listener (fun req resp ->
     async {
