@@ -36,9 +36,9 @@ let WriteLogMessage (msg:string) =
     let formattedMsg = String.Format("[{0}] INFO:: {1}\n", timeStamp, msg)
     File.AppendAllText(".\\log.txt", formattedMsg, Encoding.UTF8)
 
-let LoadSampleFile =
+let LoadSampleFile filePath =
     WriteLogMessage "Reading sample file..."
-    let byteSeq = File.ReadAllBytes(".\\test1.fsx") |> Array.toSeq
+    let byteSeq = File.ReadAllBytes(filePath) |> Array.toSeq
     WriteLogMessage "Done!!!" |> ignore
     byteSeq
 
@@ -50,10 +50,14 @@ let Main (args:string[]) =
     WriteLogMessage "Starting up..."
     match args with
         | [| filename |] -> 
-            printfn "Input file: %s" filename
-            WriteLogMessage "Found 1 argument..."
-            LoadSampleFile |> ignore
-        | _ -> printfn "Unrecognized number of arguments."
+            WriteLogMessage "Matched filename argument..."
+
+            // This is the essence of the entire pipeline
+            LoadSampleFile filename |> ParseFile |> Process |> ignore
+
+        | _ -> 
+            WriteLogMessage "Unrecognized arguments!!!"
+            printfn "Unrecognized number of arguments."
     
     WriteLogMessage "Shutting down..."
     0
