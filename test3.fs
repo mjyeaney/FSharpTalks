@@ -48,12 +48,12 @@ let LoadSampleFile =
 [<EntryPoint>]
 let Main (args:string[]) =
     WriteLogMessage "Starting up..."
-    match (args.Length) with
-        | x when x = 1 -> 
-            printfn "Input file: %s" args.[0]
+    match args with
+        | [| filename |] -> 
+            printfn "Input file: %s" filename
             WriteLogMessage "Found 1 argument..."
             LoadSampleFile |> ignore
-        | x -> printfn "Unrecognized number of arguments (%d)." x
+        | _ -> printfn "Unrecognized number of arguments."
     
     WriteLogMessage "Shutting down..."
     0
