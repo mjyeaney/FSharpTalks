@@ -32,7 +32,7 @@ let DisplayOutput (summaryData:List<string>) =
 // Utility methods
 //
 let WriteLogMessage (msg:string) =
-    let timeStamp = DateTime.Now.ToString("u")
+    let timeStamp = DateTime.Now.ToString("G")
     let formattedMsg = String.Format("[{0}] INFO:: {1}\n", timeStamp, msg)
     File.AppendAllText(".\\log.txt", formattedMsg, Encoding.UTF8)
 
