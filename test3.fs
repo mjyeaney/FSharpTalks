@@ -1,5 +1,5 @@
 ﻿//
-// Basic files representing a parse / aggregate pipeline.
+// Basic files representing a parse / streaming aggregate pipeline.
 // Later, we should see if this can be scaled out as a "push" 
 // model across nodes.
 //
