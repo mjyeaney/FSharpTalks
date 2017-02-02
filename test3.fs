@@ -20,14 +20,14 @@ let ParseFile (fileStream:seq<byte>) =
     Seq.empty<KeyValue>
 
 // Basic idea of the calculation engines. This is level-100 at the
-// moment, but you get the idea.
-let Process (values:seq<KeyValue>) (config:list<AggregateFn>) =
+// moment, but you get the idea. TODO: Need to pass in the configuration
+let UpdateAggregates (values:seq<KeyValue>) =
     list<string>.Empty
 
 // Displays the output resulting from a pass through the Process 
 // pipeline.
-let DisplayOutput (summaryData:List<string>) =
-    ()
+let DisplayOutput (summaryData:list<string>) =
+    printfn "TODO: Dump out aggregate list here."
 
 // Utility methods
 //
@@ -53,7 +53,10 @@ let Main (args:string[]) =
             WriteLogMessage "Matched filename argument..."
 
             // This is the essence of the entire pipeline
-            LoadSampleFile filename |> ParseFile |> Process |> ignore
+            LoadSampleFile filename |> 
+                ParseFile |> 
+                UpdateAggregates |>
+                DisplayOutput
 
         | _ -> 
             WriteLogMessage "Unrecognized arguments!!!"
