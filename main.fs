@@ -3,8 +3,7 @@ open System.Net
 open System.Text
 open System.IO
 
-let siteRoot = Path.GetFullPath("~/Projects/fsharp/")
-let host = "http://localhost:8080/"
+let host = "http://localhost:5555/"
 
 let listener handler =
     let hl = new HttpListener()
@@ -18,17 +17,23 @@ let listener handler =
             Async.Start(handler context.Request context.Response)
     } |> Async.Start
 
-let output req =
-    "Hello from F# Web Server!!!!"
+let output (req:HttpListenerRequest) =
+    let body = match req.RawUrl with
+        | "/Test" -> "Just a test"
+        | _ -> "Lovely little server, yea?"
+    body
 
 listener (fun req resp ->
     async {
+        let status = match req.RawUrl with
+            | "/favicon.ico" -> 404
+            | _ -> 200
         let txt = Encoding.UTF8.GetBytes(output req)
-        resp.ContentType <= "text/html" |> ignore
+        resp.ContentType <- "text/plain"
+        resp.StatusCode <- status
+        Console.WriteLine("Tried to set status {0}", resp.StatusCode)
         resp.OutputStream.Write(txt, 0, txt.Length)
         resp.OutputStream.Close()
-    })
-
-Console.WriteLine("Starting server on port 8080...")
-Console.ReadLine() |> ignore
-Console.WriteLine("Shutting down...")
+        resp.Close()
+    }
+)

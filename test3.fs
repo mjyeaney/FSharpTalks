@@ -24,13 +24,11 @@ let ParseFile (fileStream:seq<byte>) =
 let UpdateAggregates (values:seq<KeyValue>) =
     list<string>.Empty
 
-// Displays the output resulting from a pass through the Process 
-// pipeline.
+// Displays the output resulting from a pass through the Process pipeline.
 let DisplayOutput (summaryData:list<string>) =
     printfn "TODO: Dump out aggregate list here."
 
 // Utility methods
-//
 let WriteLogMessage (msg:string) =
     let timeStamp = DateTime.Now.ToString("G")
     let formattedMsg = String.Format("[{0}] INFO:: {1}\n", timeStamp, msg)
@@ -42,9 +40,7 @@ let LoadSampleFile filePath =
     WriteLogMessage "Done!!!" |> ignore
     byteSeq
 
-//
 // Main method to kick things off
-//
 [<EntryPoint>]
 let Main (args:string[]) =
     WriteLogMessage "Starting up..."
