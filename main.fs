@@ -19,14 +19,14 @@ let listener handler =
     } |> Async.Start
 
 let output (req:HttpListenerRequest) =
-    let body = match req.RawUrl with
-        | "/Test" -> "Just a test"
-        | _ -> "Lovely little server, yea?"
-    body
+    match req.RawUrl with
+    | "/Test" -> "Just a test"
+    | _ -> "Lovely little server, yea?"
 
 listener (fun req resp ->
     async {
-        let status = match req.RawUrl with
+        let status = 
+            match req.RawUrl with
             | "/favicon.ico" -> 404
             | _ -> 200
         let txt = Encoding.UTF8.GetBytes(output req)
