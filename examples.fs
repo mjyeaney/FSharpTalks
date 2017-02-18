@@ -12,43 +12,43 @@ type Product = {
     Price:float
 };;
 
-let p = { Name="Test"; Price=128.80 };;
-let p2 = { p with Name = "Another" };;
-
 //
 // Structural Comparison of Types
 //
-
+let p = { Name="Test"; Price=128.80 };;
+let p2 = { p with Name = "Another" };;
 let p3 = { Name="Test"; Price=128.80 };;
 p = p3; // True!!!
 
 //
 // Discriminated Unions
 //
-type Expr =
-| Binary of string * Expr * Expr
-| Variable of string
-| Constant of int;;
+type Expression =
+    | Binary of string * Expr * Expr
+    | Variable of string
+    | Constant of int;;
 
 let v = Binary("+", Variable "x", Constant 10);;
 
 let getVariableValue var =
-    if (var = "x") then 10
-    else failwith "Unknown variable!!!";;
+    match var with
+    | "x" -> 10.0
+    | _ -> failwith "Unknown variable!!!";;
 
 let rec eval x =
     match x with
-        | Binary(op, l, r) ->
-            let (lv, rv) = (eval l, eval r)
-            if (op = "+") then lv + rv
-            elif (op = "-") then lv - rv
-            elif (op = "*") then lv * rv
-            elif (op = "/") then lv / rv
-            else failwith "Unknown operator!!!"
-        | Variable(var) ->
-            getVariableValue var
-        | Constant(n) ->
-            n;;
+    | Binary(op, l, r) ->
+        let (lv, rv) = (eval l, eval r)
+        match op with
+        | "+" -> lv + rv
+        | "-" -> lv - rv
+        | "*" -> lv * rv
+        | "/" -> lv / rv
+        | _ -> failwith "Uknown operator!!!"
+    | Variable(var) ->
+        getVariableValue var
+    | Constant(n) ->
+        n;;
 
 //
 // Lists & data pipelining
@@ -96,8 +96,6 @@ type Variant with
 //
 // Actor Exmples
 //
-
-
 #nowarn "40"
 let printerAgent = MailboxProcessor.Start(fun inbox-> 
     // the message processing function
@@ -110,12 +108,12 @@ let printerAgent = MailboxProcessor.Start(fun inbox->
         printfn "message is: %s" msg
 
         // loop to top
-        return! messageLoop  
-        }
+        return! messageLoop()
+    }
 
     // start the loop 
     messageLoop 
-    );;
+);;
 
 // 
 // Type Provider Example

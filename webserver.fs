@@ -2,6 +2,7 @@ open System
 open System.Net
 open System.Text
 open System.IO
+open Newtonsoft.Json
 
 let port = 5555
 let host = String.Format("http://localhost:{0}/", port)
@@ -20,7 +21,7 @@ let listener handler =
 
 let output (req:HttpListenerRequest) =
     match req.RawUrl with
-    | "/Test" -> "Just a test"
+    | "/Test" -> JsonConvert.SerializeObject(DateTime.UtcNow)
     | _ -> "Lovely little server, yea?"
 
 listener (fun req resp ->
