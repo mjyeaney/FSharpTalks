@@ -3,7 +3,8 @@ open System.Net
 open System.Text
 open System.IO
 
-let host = "http://localhost:5555/"
+let port = 5555
+let host = String.Format("http://localhost:{0}/", port)
 
 let listener handler =
     let hl = new HttpListener()
@@ -37,3 +38,7 @@ listener (fun req resp ->
         resp.Close()
     }
 )
+
+Console.WriteLine("Started server on port {0}", port)
+Console.Read() |> ignore
+Console.WriteLine("Shutting down...")
