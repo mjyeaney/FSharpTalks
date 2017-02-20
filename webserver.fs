@@ -5,14 +5,15 @@ open System.IO
 open Newtonsoft.Json
 
 let port = 5555
-let host = String.Format("http://localhost:{0}/", port)
+let host = String.Format("http://127.0.0.1:{0}/", port)
 
 let WriteLogMessage (msg:string) =
     let timeStamp = DateTime.Now.ToString("G")
     let formattedMsg = String.Format("[{0}] INFO:: {1}\n", timeStamp, msg)
-    File.AppendAllText(".\\log.txt", formattedMsg, Encoding.UTF8)
+    //File.AppendAllText(".\\log.txt", formattedMsg, Encoding.UTF8)
+    Console.Write(formattedMsg)
 
-let listener handler =
+let ListenerHandler handler =
     let hl = new HttpListener()
     hl.Prefixes.Add host
     hl.Start()
@@ -24,19 +25,20 @@ let listener handler =
             Async.Start(handler context.Request context.Response)
     } |> Async.Start
 
-let output (req:HttpListenerRequest) =
+let GetResponseContent (req:HttpListenerRequest) =
     match req.RawUrl with
-    | "/Test" -> JsonConvert.SerializeObject(DateTime.UtcNow)
-    | _ -> "Lovely little server, yea?"
+    | "/Test" -> (JsonConvert.SerializeObject(DateTime.UtcNow), "application/json")
+    | _ -> ("Default content blurb...maybe a document or some markup", "text/plain")
 
-listener (fun req resp ->
+ListenerHandler (fun req resp ->
     async {
         let status = 
             match req.RawUrl with
             | "/favicon.ico" -> 404
             | _ -> 200
-        let txt = Encoding.UTF8.GetBytes(output req)
-        resp.ContentType <- "text/plain"
+        let (content, contentType) = GetResponseContent req
+        let txt = Encoding.UTF8.GetBytes(content)
+        resp.ContentType <- contentType
         resp.StatusCode <- status
         WriteLogMessage(String.Format("{0} - {1}", req.RawUrl, resp.StatusCode))
         resp.OutputStream.Write(txt, 0, txt.Length)
