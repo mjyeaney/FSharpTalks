@@ -1,8 +1,16 @@
+//
+// Simple PoC webserver application using HttpListener bindings.
+// This is deployed into an Azure websites deployment as a lightweight
+// JSON data endpoint.
+//
+
 open System
 open System.Net
 open System.Text
 open System.IO
 open Newtonsoft.Json
+
+type KeyValue = string * string
 
 let port = 5555
 let host = String.Format("http://127.0.0.1:{0}/", port)
@@ -27,7 +35,9 @@ let ListenerHandler handler =
 
 let GetResponseContent (req:HttpListenerRequest) =
     match req.RawUrl with
-    | "/Test" -> (JsonConvert.SerializeObject(DateTime.UtcNow), "application/json")
+    | "/Test" -> 
+        let kv = ("test", "fred")
+        (JsonConvert.SerializeObject(kv), "application/json")
     | _ -> ("Default content blurb...maybe a document or some markup", "text/plain")
 
 ListenerHandler (fun req resp ->
