@@ -5,7 +5,7 @@ let t = (42, "Hello");;
 let (num, str) = t;;
 
 //
-// Records
+// Records..like Tuples with named fields
 //
 type Product = {
     Name:string
