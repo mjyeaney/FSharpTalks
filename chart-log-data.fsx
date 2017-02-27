@@ -31,4 +31,5 @@ let averageSeries = Chart.Line averagePoints;;
 
 let combo = Chart.Combine([runtimeSeries; averageSeries;]);;
 
-// combo.ShowChart();;
+
+combo.ShowChart();;
