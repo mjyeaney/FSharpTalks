@@ -5,7 +5,7 @@ open System.IO;;
 open System.Text;;
 open FSharp.Charting;;
 
-let fileName = "c:\\users\\micha\\Desktop\\ConsoleApplication1\\ConsoleApplication1\\bin\\Debug\\agentlog.txt"
+let fileName = "agentlog.txt"
 
 let readLogData fileName =
     let lines = File.ReadAllLines(fileName, Encoding.UTF8)
