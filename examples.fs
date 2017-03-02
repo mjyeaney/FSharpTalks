@@ -24,11 +24,9 @@ p = p3; // True!!!
 // Discriminated Unions
 //
 type Expression =
-    | Binary of string * Expr * Expr
+    | Binary of string * Expression * Expression
     | Variable of string
-    | Constant of int;;
-
-let v = Binary("+", Variable "x", Constant 10);;
+    | Constant of float;;
 
 let getVariableValue var =
     match var with
@@ -44,11 +42,15 @@ let rec eval x =
         | "-" -> lv - rv
         | "*" -> lv * rv
         | "/" -> lv / rv
+        | "**" -> lv ** rv
         | _ -> failwith "Uknown operator!!!"
     | Variable(var) ->
         getVariableValue var
     | Constant(n) ->
         n;;
+
+let v = Binary("+", Constant 5, Constant 10);;
+eval v;;
 
 //
 // Lists & data pipelining
@@ -96,10 +98,9 @@ type Variant with
 //
 // Actor Exmples
 //
-#nowarn "40"
 let printerAgent = MailboxProcessor.Start(fun inbox-> 
     // the message processing function
-    let rec messageLoop = async{
+    let rec messageLoop () = async{
         
         // read a message
         let! msg = inbox.Receive()
@@ -108,26 +109,11 @@ let printerAgent = MailboxProcessor.Start(fun inbox->
         printfn "message is: %s" msg
 
         // loop to top
-        return! messageLoop()
+        return! messageLoop ()
     }
 
     // start the loop 
-    messageLoop 
+    messageLoop ()
 );;
 
-// 
-// Type Provider Example
-//
-
-#r "FSharp.Data.2.1.1/lib/net40/FSharp.Data.dll";;
-open FSharp.Data;;
-
-type MarketingData = CsvProvider<"sample_data/marketing.csv">;;
-let data = MarketingData.Load("sample_data/marketing.csv");;
-data.Rows |> Seq.head;;
-
-let firstRow = data.Rows |> Seq.head;;
-firstRow.Age;;
-firstRow.``Buy CD``;;
-
-
+printerAgent.Post "This is a test message"

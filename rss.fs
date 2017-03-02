@@ -13,7 +13,7 @@ module SumOfSquares =
 
     let sumOfSquares datum =
         let mean = avg datum
-        datum |> Seq.sumBy (fun x -> Math.Pow(mean - x, 2.0))
+        datum |> Seq.sumBy (fun x -> (mean - x) ** 2.0))
 
     let computeRss datum =
         Math.Sqrt(sumOfSquares datum)
