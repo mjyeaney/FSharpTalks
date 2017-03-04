@@ -6,7 +6,7 @@ open System
 //
 // Fold and average some uniform random numbers.
 //
-let rng = new Random()
+let rng = Random()
 let n = 1000
 let data = [1..n] |> Seq.map(fun x -> rng.NextDouble())
 let avg = (/) (data |> Seq.fold (+) 0.0) ((float) n)
