@@ -1,1 +1,1 @@
-﻿fsc .\test3.fs --out:.\bin\test.exe
+﻿fsc .\parsing-pipeline.fs --out:.\bin\test.exe
