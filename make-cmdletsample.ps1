@@ -1,0 +1,1 @@
+fsc .\cmdletsample.fs --out:.\bin\cmdletsample.dll --target:library --reference:C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0__31bf3856ad364e35\System.Management.Automation.dll
