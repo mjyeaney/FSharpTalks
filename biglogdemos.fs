@@ -1,19 +1,17 @@
-open System.IO;;
+open System.IO
 
 let readData () =
     seq {
         use reader = new StreamReader("biglog.txt")
         while (not reader.EndOfStream) do
             yield reader.ReadLine() |> float
-    };;
+    }
 
-#time;;
-readData() |> Seq.average;;
+let avg1 = readData() |> Seq.average
 
 let cachedData =
-    readData() |> Seq.cache;;
+    readData() |> Seq.cache
 
-cachedData |> Seq.average;;
-cachedData |> Seq.average;;
-#time;;
+let avg2 = cachedData |> Seq.average
+let avg3 = cachedData |> Seq.average
 

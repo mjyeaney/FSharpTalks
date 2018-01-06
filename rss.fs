@@ -3,9 +3,9 @@ namespace Tutorials
 open System
 
 module SumOfSquares =
-    let rng = new Random()
+    let rng = Random()
 
-    let getData n = 
+    let GetData n = 
         [1..n] |> Seq.map (fun x -> rng.NextDouble()) |> Seq.cache
 
     let avg datum =
@@ -13,7 +13,7 @@ module SumOfSquares =
 
     let sumOfSquares datum =
         let mean = avg datum
-        datum |> Seq.sumBy (fun x -> (mean - x) ** 2.0))
+        datum |> Seq.sumBy (fun x -> (mean - x) ** 2.0)
 
     let computeRss datum =
         Math.Sqrt(sumOfSquares datum)
