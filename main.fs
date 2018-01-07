@@ -12,13 +12,7 @@ let main argv =
 
     // WebServer.Start
     // Console.Read() |> ignore
-    let storageConnectionString = "DefaultEndpointsProtocol=https;\
-            AccountName=cloudtimecheck;\
-            AccountKey=KNKQm3w30wtxZDGw6dM6VC+ThO9GwmOnnIx1yFueRswozcYWcFrQdR+6mz4cYXbC8zk5cSkvbt6XHspNvGpsMg==;\
-            BlobEndpoint=https://cloudtimecheck.blob.core.windows.net/;\
-            QueueEndpoint=https://cloudtimecheck.queue.core.windows.net/;\
-            TableEndpoint=https://cloudtimecheck.table.core.windows.net/;\
-            FileEndpoint=https://cloudtimecheck.file.core.windows.net/;"
+    let storageConnectionString = "--TODO--"
 
     let account = CloudStorageAccount.Parse storageConnectionString
     let serviceClient = account.CreateCloudQueueClient()
